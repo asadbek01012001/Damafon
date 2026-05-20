@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Recurse \"C:\\\\Users\\\\PC\\\\Desktop\\\\Damafon\" | Where-Object { -not $_.PSIsContainer } | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\PC\\\\Desktop\\\\Damafon\\\\\",\"\"\\) } | Sort-Object)",
+      "PowerShell(netstat *)",
+      "PowerShell(docker exec damafon-asterisk bash -c \"dpkg -l | grep asterisk | awk '{print \\\\$2}'\" 2>&1)",
+      "PowerShell(docker exec damafon-asterisk *)",
+      "PowerShell(docker compose ps *)",
+      "PowerShell(docker exec damafon-go2rtc *)",
+      "PowerShell(docker exec damafon-backend *)",
+      "Bash(ipconfig)",
+      "Bash(docker compose *)",
+      "Bash(docker restart *)",
+      "Bash(curl -s http://localhost:1984/api/config)",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s http://localhost:1984/api/streams)",
+      "Bash(curl -v -X PUT \"http://localhost:1984/api/streams?name=test_stream&src=rtsp%3A%2F%2Fadmin%3Atest%4010.0.0.1%3A554%2Fstream\")",
+      "Bash(docker exec *)",
+      "Bash(docker-compose down *)",
+      "Bash(docker-compose build *)",
+      "Bash(docker-compose up *)"
+    ]
+  }
+}

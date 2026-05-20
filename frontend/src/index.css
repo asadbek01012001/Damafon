@@ -1,0 +1,36 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0f0f1a;
+  --surface: #1a1a2e;
+  --surface2: #16213e;
+  --accent: #0f3460;
+  --green: #4ade80;
+  --red: #f87171;
+  --yellow: #fbbf24;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --radius: 12px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 10px 20px;
+  transition: all 0.2s ease;
+}
+
+button:active { transform: scale(0.97); }

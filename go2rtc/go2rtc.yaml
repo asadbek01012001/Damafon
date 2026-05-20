@@ -1,0 +1,28 @@
+api:
+  listen: ":1984"
+  origin: "*"
+
+streams:
+  # Dahua main stream (high quality)
+  dahua_main:
+    - rtsp://admin:Abc112233@10.143.122.138:554/cam/realmonitor?channel=1&subtype=0
+
+  # Dahua sub stream (low latency, lower res)
+  dahua_sub:
+    - rtsp://admin:Abc112233@10.143.122.138:554/cam/realmonitor?channel=1&subtype=1
+  device_c5fa9aaf:
+    - rtsp://admin:Abc%40112233@10.190.66.7:554/Streaming/Channels/102
+  device_9728f153:
+    - rtsp://admin:Abc112233@10.143.122.138:554/cam/realmonitor?channel=1&subtype=1
+
+webrtc:
+  listen: ":8555"
+  candidates:
+    - 192.168.168.24:8555
+
+rtsp:
+  listen: ":8554"
+
+log:
+  level: info
+  format: text

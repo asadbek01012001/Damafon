@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  asterisk:
+    build:
+      context: ./asterisk
+      dockerfile: Dockerfile
+    container_name: damafon-asterisk
+    ports:
+      - "5060:5060/udp"
+      - "5060:5060/tcp"
+      - "8088:8088/tcp"
+      - "10000-10200:10000-10200/udp"
+    volumes:
+      - asterisk-keys:/etc/asterisk/keys
+    networks:
+      - damafon
+    restart: unless-stopped
+
+  go2rtc:
+    image: alexxit/go2rtc:latest
+    container_name: damafon-go2rtc
+    ports:
+      - "1984:1984"
+      - "8555:8555/tcp"
+      - "8555:8555/udp"
+    volumes:
+      - ./go2rtc/go2rtc.yaml:/config/go2rtc.yaml
+    networks:
+      - damafon
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: damafon-backend
+    ports:
+      - "5050:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5000
+      - Asterisk__Host=asterisk
+      - Asterisk__AriPort=8088
+      - Asterisk__AriUsername=ari_user
+      - Asterisk__AriPassword=ari_secret_2024!
+      - Asterisk__AppName=intercom
+      - Asterisk__SipHost=asterisk
+      - Asterisk__SipPort=5060
+      - Go2rtc__BaseUrl=http://go2rtc:1984
+      - Dahua__Host=${DAHUA_HOST:-192.168.1.100}
+      - Dahua__Port=${DAHUA_PORT:-80}
+      - Dahua__Username=${DAHUA_USER:-admin}
+      - Dahua__Password=${DAHUA_PASS:-admin123}
+      - Dahua__Channel=${DAHUA_CHANNEL:-1}
+      - Frontend__Url=http://localhost:3000
+      - Jwt__SecretKey=${JWT_SECRET:-change_this_in_production_32chars!}
+    volumes:
+      - backend-data:/data
+    depends_on:
+      - asterisk
+      - go2rtc
+    networks:
+      - damafon
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: damafon-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - damafon
+    restart: unless-stopped
+
+volumes:
+  asterisk-keys:
+  backend-data:
+
+networks:
+  damafon:
+    driver: bridge
