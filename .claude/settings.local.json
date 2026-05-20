@@ -18,7 +18,11 @@
       "Bash(docker exec *)",
       "Bash(docker-compose down *)",
       "Bash(docker-compose build *)",
-      "Bash(docker-compose up *)"
+      "Bash(docker-compose up *)",
+      "Bash(ip route *)",
+      "Bash(awk '{print $7; exit}')",
+      "Bash(awk '{print $1}')",
+      "PowerShell(findstr *)"
     ]
   }
 }

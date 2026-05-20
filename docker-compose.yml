@@ -53,7 +53,7 @@ services:
       - Dahua__Username=${DAHUA_USER:-admin}
       - Dahua__Password=${DAHUA_PASS:-admin123}
       - Dahua__Channel=${DAHUA_CHANNEL:-1}
-      - Frontend__Url=http://localhost:3000
+      - Frontend__Url=http://${HOST_IP}:4004
       - Jwt__SecretKey=${JWT_SECRET:-change_this_in_production_32chars!}
     volumes:
       - backend-data:/data
@@ -70,7 +70,7 @@ services:
       dockerfile: Dockerfile
     container_name: damafon-frontend
     ports:
-      - "3000:80"
+      - "4004:80"
     depends_on:
       - backend
     networks:
