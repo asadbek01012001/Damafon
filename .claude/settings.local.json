@@ -22,7 +22,11 @@
       "Bash(ip route *)",
       "Bash(awk '{print $7; exit}')",
       "Bash(awk '{print $1}')",
-      "PowerShell(findstr *)"
+      "PowerShell(findstr *)",
+      "Bash(docker --version)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\PC\\\\Desktop\\\\Damafon\\\\backend\" -Recurse -Directory)",
+      "Bash(Select-Object -First 20 FullName)",
+      "Bash(xargs wc -l)"
     ]
   }
 }

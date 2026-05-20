@@ -97,7 +97,6 @@ public class DoorService : IDoorService
         }
     }
 
-    // Hikvision uchun Digest auth (avtomatik negotiate qiladi)
     private static HttpClient CreateDigestClient(string username, string password)
     {
         var handler = new HttpClientHandler
@@ -105,7 +104,11 @@ public class DoorService : IDoorService
             Credentials = new NetworkCredential(username, password),
             PreAuthenticate = false,
         };
-        return new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(8) };
+        var client = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(8) };
+        // Force TCP connection close so Dahua frees the slot immediately;
+        // without this, the device rejects the next request while the old socket is in TIME_WAIT.
+        client.DefaultRequestHeaders.ConnectionClose = true;
+        return client;
     }
 
     // Dahua uchun Basic auth
