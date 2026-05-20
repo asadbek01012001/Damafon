@@ -54,7 +54,7 @@ public class DoorService : IDoorService
                   $"?action=openDoor&channel={device.HttpChannel}&Type=Remote&UserID=101&Door=1";
         try
         {
-            using var http = CreateClient(device.HttpUsername, device.HttpPassword);
+            using var http = CreateDigestClient(device.HttpUsername, device.HttpPassword);
             var resp = await http.GetAsync(url, ct);
             var body = await resp.Content.ReadAsStringAsync(ct);
             var ok = resp.IsSuccessStatusCode && body.Contains("OK");
