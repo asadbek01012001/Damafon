@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Damafon.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e749d66a40dae34559361d61e0c9001aa33d7403")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b7cd11ca2d127d352d91f4337761cc2faf50aae")]
 [assembly: System.Reflection.AssemblyProductAttribute("Damafon.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Damafon.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

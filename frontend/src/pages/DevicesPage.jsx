@@ -246,8 +246,16 @@ export function DevicesPage() {
           <div style={s.meta}>
             🚪 HTTP: {d.httpHost}:{d.httpPort}
           </div>
-          {d.sipCallerId && (
+          {d.sipEnabled && d.sipCallerId && (
             <div style={s.meta}>📞 SIP Caller ID: {d.sipCallerId}</div>
+          )}
+          {!d.sipEnabled && (
+            <div style={{ ...s.meta, marginTop: 8, padding: '6px 10px', background: 'rgba(251,191,36,0.08)', borderRadius: 6, border: '1px solid rgba(251,191,36,0.2)' }}>
+              🔗 Hikvision HTTP event URL:<br />
+              <span style={{ fontSize: 11, color: '#fbbf24', wordBreak: 'break-all' }}>
+                POST http://{window.location.hostname}:5050/api/hikvision/{d.id}/event
+              </span>
+            </div>
           )}
           <div style={s.btnRow}>
             <button style={s.btnEdit} onClick={() => setEditing(d)}>Tahrirlash</button>
