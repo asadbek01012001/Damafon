@@ -68,5 +68,14 @@ export function useSipPhone() {
     setSipState('registered');
   }, []);
 
-  return { sipState, register, acceptSip, hangupSip };
+  const muteMic = useCallback((enabled) => {
+    const s = sessionRef.current;
+    if (!s?.sessionDescriptionHandler?.peerConnection) return;
+    s.sessionDescriptionHandler.peerConnection
+      .getSenders()
+      .filter(sender => sender.track?.kind === 'audio')
+      .forEach(sender => { if (sender.track) sender.track.enabled = enabled; });
+  }, []);
+
+  return { sipState, register, acceptSip, hangupSip, muteMic };
 }

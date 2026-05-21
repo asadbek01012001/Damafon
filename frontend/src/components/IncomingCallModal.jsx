@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { VideoPlayer } from './VideoPlayer';
 import { useWebRTC } from '../hooks/useWebRTC';
-import { useSipPhone } from '../hooks/useSipPhone';
 import { openDoor, openDeviceDoor } from '../services/apiService';
 
 const styles = {
@@ -82,21 +81,15 @@ function useCallTimer(active) {
   return `${mm}:${ss}`;
 }
 
-export function IncomingCallModal({ call, onAnswer, onReject, onHangup, answered }) {
+export function IncomingCallModal({ call, onAnswer, onReject, onHangup, answered, sipState, acceptSip, hangupSip, muteMic }) {
   const sipAudioRef = useRef(null);
   const sipAcceptedRef = useRef(false);
   const { stream, videoState, connect, disconnect, toggleLocalMic } = useWebRTC();
-  const { sipState, register, acceptSip, hangupSip } = useSipPhone();
   const [micOn, setMicOn] = useState(true);
   const [doorMsg, setDoorMsg] = useState('');
   const timer = useCallTimer(answered);
 
   const sipEnabled = call.sipEnabled !== false;
-
-  // SIP.js ni ro'yxatdan o'tkazish (faqat SIP qurilmalar uchun)
-  useEffect(() => {
-    if (sipEnabled) register().catch(() => {});
-  }, []);
 
   // Video + audio ulanish
   useEffect(() => {
@@ -137,9 +130,9 @@ export function IncomingCallModal({ call, onAnswer, onReject, onHangup, answered
     const next = !micOn;
     setMicOn(next);
     if (!sipEnabled) {
-      toggleLocalMic(next);
-    } else if (stream) {
-      stream.getAudioTracks().forEach((t) => { t.enabled = next; });
+      toggleLocalMic(next);   // go2rtc RTSP backchannel mic
+    } else {
+      muteMic(next);           // SIP.js peer connection audio track
     }
   };
 

@@ -1,5 +1,6 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useSignalR } from './hooks/useSignalR';
+import { useSipPhone } from './hooks/useSipPhone';
 import { IncomingCallModal } from './components/IncomingCallModal';
 import { DevicesPage } from './pages/DevicesPage';
 import { DoorPanel } from './components/DoorPanel';
@@ -44,6 +45,12 @@ export default function App() {
   const [call, setCall] = useState(null);
   const [answered, setAnswered] = useState(false);
   const notifAudio = useRef(null);
+  const sip = useSipPhone();
+
+  // App yuklanganda darhol register — modal kutmasdan webphone tayyor bo'ladi
+  useEffect(() => {
+    sip.register().catch(() => {});
+  }, []);
 
   const stopRing = () => {
     if (notifAudio.current) { notifAudio.current.pause(); notifAudio.current.currentTime = 0; }
@@ -151,6 +158,10 @@ export default function App() {
           onAnswer={handleAnswer}
           onReject={handleReject}
           onHangup={handleHangup}
+          sipState={sip.sipState}
+          acceptSip={sip.acceptSip}
+          hangupSip={sip.hangupSip}
+          muteMic={sip.muteMic}
         />
       )}
     </div>
