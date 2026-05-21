@@ -3,22 +3,26 @@ api:
   origin: "*"
 
 streams:
-  # Dahua main stream (high quality)
+  # Dahua asosiy stream (yuqori sifat)
   dahua_main:
     - rtsp://admin:Abc112233@10.143.122.138:554/cam/realmonitor?channel=1&subtype=0
 
-  # Dahua sub stream (low latency, lower res)
+  # Dahua pastki stream (kam kechikish, past sifat) — qo'ng'iroq paytida ishlatiladi
   dahua_sub:
     - rtsp://admin:Abc112233@10.143.122.138:554/cam/realmonitor?channel=1&subtype=1
+
   device_c5fa9aaf:
     - rtsp://admin:Abc%40112233@10.190.66.7:554/Streaming/Channels/102
+
   device_9728f153:
     - rtsp://admin:Abc112233@10.143.122.138:554/cam/realmonitor?channel=1&subtype=1
 
 webrtc:
   listen: ":8555"
+  # Brauzerga e'lon qilinadigan ICE kandidat IP si — serverni haqiqiy LAN IP si
+  # HOST_IP env var dan o'qiladi (docker-compose.yml orqali .env dan keladi)
   candidates:
-    - 192.168.168.24:8555
+    - ${HOST_IP}:8555
 
 rtsp:
   listen: ":8554"

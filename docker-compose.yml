@@ -11,6 +11,16 @@ services:
       - "5060:5060/tcp"
       - "8088:8088/tcp"
       - "10000-10200:10000-10200/udp"
+    environment:
+      # Asterisk bu IP ni SIP/RTP kandidat sifatida reklamalaydi.
+      # .env dan o'qiladi; agar yo'q bo'lsa 172.24.201.4 default.
+      - HOST_IP=${HOST_IP:-172.24.201.4}
+      # Dahua Room Number — pjsip.conf auth username shu bo'lishi kerak
+      - DAHUA_ROOM_NO=${DAHUA_ROOM_NO:-8001}
+      # Dahua SIP parol — Dahua admin panelida ham xuddi shu parol o'rnatiladi
+      - DAHUA_SIP_PASSWORD=${DAHUA_SIP_PASSWORD:-dahua_sip_2024!}
+      # Dahua IP — pjsip.conf identify match uchun
+      - DAHUA_HOST=${DAHUA_HOST:-10.143.122.138}
     volumes:
       - asterisk-keys:/etc/asterisk/keys
     networks:
@@ -24,6 +34,9 @@ services:
       - "1984:1984"
       - "8555:8555/tcp"
       - "8555:8555/udp"
+    environment:
+      # go2rtc.yaml ichida ${HOST_IP} sifatida ishlatiladi (WebRTC ICE kandidat)
+      - HOST_IP=${HOST_IP:-172.24.201.4}
     volumes:
       - ./go2rtc/go2rtc.yaml:/config/go2rtc.yaml
     networks:
